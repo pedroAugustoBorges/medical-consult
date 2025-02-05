@@ -16,6 +16,6 @@ services:
 
 
 volumes:
-  4pedro-dev:
+  pedro-dev:
 
 

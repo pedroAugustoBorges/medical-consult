@@ -2,7 +2,13 @@ package com.pedro.medical_consult.domain;
 
 import com.pedro.medical_consult.domain.enumeration.Specialization;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "doctors")
 public class Doctor {

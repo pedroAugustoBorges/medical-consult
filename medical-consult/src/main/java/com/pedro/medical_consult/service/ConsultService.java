@@ -1,4 +1,10 @@
 package com.pedro.medical_consult.service;
 
-public interface ConsultService {
+import com.pedro.medical_consult.domain.Consult;
+
+public interface ConsultService extends CrudService<Consult, Long> {
+
+
+
+
 }

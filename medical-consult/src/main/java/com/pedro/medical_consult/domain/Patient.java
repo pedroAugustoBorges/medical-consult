@@ -4,8 +4,14 @@ package com.pedro.medical_consult.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity(name = "Patient")
 @Table(name = "patient")
 public class Patient {
@@ -22,6 +28,9 @@ public class Patient {
     @Column( nullable = false, unique = true, name = "email")
     private String email;
 
+    @CPF
+    @Column(nullable = false, unique = true, name = "cpf")
+    private String cpf;
     
     @Column (nullable = false, name = "telephone")
     private String telephone;
@@ -30,10 +39,11 @@ public class Patient {
     @Column(length = 9)
     private String zipcode;
 
-    
-    private String numberStreet;
 
-    
+    @Column(nullable = false, name = "number_street")
+    private Long numberStreet;
+
+    @Column(nullable = false, name = "street")
     private String street;
 
 
