@@ -7,14 +7,13 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
-
     private final DoctorRepository doctorRepository;
+
 
     public DoctorServiceImpl(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
@@ -46,7 +45,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void deleteById(Long id) {
        validateId(id);
-        if (doctorRepository.existsById(id)){
+        if (!doctorRepository.existsById(id)){
             throw new EntityNotFoundException("Doctor not found with id " + id);
         }
 
@@ -64,11 +63,13 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> findAll() {
-        return doctorRepository.findAll();
+        List<Doctor> listDoctors = doctorRepository.findAll();
+
+        return listDoctors.isEmpty() ? Collections.emptyList() : listDoctors;
     }
 
     private void validateId (Long id){
-        if (id == null || id < 0){
+        if (id == null || id <= 0){
             throw new IllegalArgumentException("Id invalid: " + id);
         }
     }
