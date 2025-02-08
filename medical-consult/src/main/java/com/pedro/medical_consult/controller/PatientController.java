@@ -40,12 +40,6 @@ public class PatientController {
         return new ResponseEntity<>(patientService.save(patientPostRequestBody), HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody Patient patient){
-        patientService.delete(patient);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @DeleteMapping (path = "/{id}")
     public ResponseEntity<Void> deleteById (@PathVariable Long id) {
         patientService.deleteById(id);
