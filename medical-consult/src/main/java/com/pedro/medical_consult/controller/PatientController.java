@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import requests.patient.PatientPostRequestBody;
+import requests.patient.PatientPutRequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +36,8 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Patient> save (@RequestBody Patient patient){
-        return new ResponseEntity<>(patientService.save(patient), HttpStatus.CREATED);
+    public ResponseEntity<Patient> save (@RequestBody PatientPostRequestBody patientPostRequestBody){
+        return new ResponseEntity<>(patientService.save(patientPostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping
@@ -62,8 +64,8 @@ public class PatientController {
     }
 
     @PutMapping
-    public ResponseEntity<Patient> updateByIdPatient (@RequestBody Patient patient){
-        patientService.updateByIdPatient(patient);
+    public ResponseEntity<Patient> updateByIdPatient (@RequestBody PatientPutRequestBody patientPutRequestBody){
+        patientService.replace(patientPutRequestBody);
         return  new ResponseEntity<>(HttpStatus.OK);
     }
 

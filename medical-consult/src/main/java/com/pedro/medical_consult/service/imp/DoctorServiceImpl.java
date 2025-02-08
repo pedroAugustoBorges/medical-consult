@@ -33,13 +33,6 @@ public class DoctorServiceImpl implements DoctorService {
         return Optional.of(doctorFounded);
     }
 
-    @Override
-    public void delete(Doctor entity) {
-        if (entity == null){
-            throw new IllegalArgumentException("Exception throw because doctor is null ");
-        }
-        doctorRepository.delete(entity);
-    }
 
     @Override
     public void deleteById(Long id) {

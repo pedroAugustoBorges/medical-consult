@@ -39,17 +39,6 @@ public class ConsultServiceImpl implements ConsultService {
     }
 
     @Override
-    public void delete(Consult consult) {
-        validateId(consult.getIdConsult());
-
-        if (!existsById(consult.getIdConsult())){
-            throw new EntityNotFoundException("Entity not found");
-        }
-
-        consultRepository.delete(consult);
-    }
-
-    @Override
     public void deleteById(Long id) {
         validateId(id);
 

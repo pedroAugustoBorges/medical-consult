@@ -9,8 +9,6 @@ public interface CrudService<T, Object>{
 
     Optional<T> findById (Object id);
 
-    void delete (T entity);
-
     void deleteById(Long id);
 
     boolean existsById (Long id);
