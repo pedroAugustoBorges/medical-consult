@@ -17,6 +17,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPatient")
     private Long idPatient;
 
     
@@ -27,7 +28,7 @@ public class Patient {
     @Column( nullable = false, unique = true, name = "email")
     private String email;
 
-    @CPF
+
     @Column(nullable = false, unique = true, name = "cpf")
     private String cpf;
     
@@ -35,7 +36,7 @@ public class Patient {
     private String telephone;
 
     
-    @Column(length = 9)
+    @Column(length = 9, name = "zipcode", nullable = false)
     private String zipcode;
 
 
@@ -89,10 +90,9 @@ public class Patient {
         return email;
     }
 
-    public @CPF String getCpf() {
+    public String getCpf() {
         return cpf;
     }
-
     public String getTelephone() {
         return telephone;
     }

@@ -5,10 +5,8 @@ import com.pedro.medical_consult.repository.ConsultRepository;
 import com.pedro.medical_consult.service.ConsultService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

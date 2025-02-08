@@ -4,8 +4,11 @@ import com.pedro.medical_consult.domain.Patient;
 import com.pedro.medical_consult.repository.PatientRepository;
 import com.pedro.medical_consult.service.PatientService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +25,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
 
+    @Transactional
     @Override
     public Patient save(@Valid Patient patient) {
 
@@ -33,11 +37,13 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Optional<Patient> findById(Long id) {
-        Patient patientOptional = patientRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Patient not found "));
+        validateId(id);
+        Patient patientOptional = patientRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Patient not found "));
 
         return Optional.of(patientOptional);
     }
 
+    @Transactional
     @Override
     public void delete(Patient patient) {
        validateId(patient.getIdPatient());
@@ -49,6 +55,7 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.delete(patient);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         validateId(id);
@@ -59,6 +66,18 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void deleteByCpf(String cpf) {
+        Optional<Patient> patientOptional = findByCpf(cpf);
+
+        if (!patientOptional.isPresent()){
+            throw new EntityNotFoundException("Entity not found");
+        }
+
+        patientRepository.deleteByCpf(cpf);
+
+    }
 
     @Override
     public boolean existsById(Long id) {
@@ -79,6 +98,29 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findByCpf(cpf).orElseThrow(() -> new IllegalArgumentException("Patint with cpf: " + cpf + " not found"));
 
         return Optional.of(patient);
+    }
+
+
+    public void updateByIdPatient(Patient patient) {
+        Optional<Patient> patientFounded = findById(patient.getIdPatient());
+
+        if (!patientFounded.isPresent()){
+            throw new EntityNotFoundException("Entity not found");
+        }
+
+        Patient patientWillBeUpdated = patientFounded.get();
+
+        patientWillBeUpdated.setName(patient.getName());
+        patientWillBeUpdated.setCpf(patient.getCpf());
+        patientWillBeUpdated.setStreet(patient.getStreet());
+        patientWillBeUpdated.setEmail(patient.getEmail());
+        patientWillBeUpdated.setZipcode(patient.getZipcode());
+        patientWillBeUpdated.setNumberStreet(patient.getNumberStreet());
+        patientWillBeUpdated.setTelephone(patient.getTelephone());
+
+        patientRepository.save(patientWillBeUpdated);
+
+
     }
 
     private void validateId (Long id) {

@@ -4,7 +4,6 @@ import com.pedro.medical_consult.domain.Doctor;
 import com.pedro.medical_consult.repository.DoctorRepository;
 import com.pedro.medical_consult.service.DoctorService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

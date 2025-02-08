@@ -7,4 +7,7 @@ import java.util.Optional;
 public interface PatientService extends  CrudService<Patient, Long>{
 
     Optional<Patient> findByCpf (String cpf);
+
+    void deleteByCpf (String cpf);
+
 }
