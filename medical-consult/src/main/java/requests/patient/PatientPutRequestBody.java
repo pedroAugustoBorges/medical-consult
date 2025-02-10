@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class PatientPutRequestBody {
     @NotBlank
     private String zipcode;
 
-    @NotBlank
+    @NotNull
     private Long numberStreet;
 
     @NotBlank

@@ -1,6 +1,7 @@
 package com.pedro.medical_consult.service.imp;
 
 import com.pedro.medical_consult.domain.Doctor;
+import com.pedro.medical_consult.exception.BadRequestException;
 import com.pedro.medical_consult.repository.DoctorRepository;
 import com.pedro.medical_consult.service.DoctorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,7 +30,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Optional<Doctor> findById(Long id) {
 
-        Doctor doctorFounded = doctorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Exception throw because doctor is not found"));
+        Doctor doctorFounded = doctorRepository.findById(id).orElseThrow(() -> new BadRequestException("Doctor not found"));
         return Optional.of(doctorFounded);
     }
 

@@ -1,6 +1,7 @@
 package com.pedro.medical_consult.service.imp;
 
 import com.pedro.medical_consult.domain.Patient;
+import com.pedro.medical_consult.exception.BadRequestException;
 import com.pedro.medical_consult.mapper.PatientMapper;
 import com.pedro.medical_consult.repository.PatientRepository;
 import com.pedro.medical_consult.service.PatientService;
@@ -50,7 +51,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Optional<Patient> findById(Long id) {
         validateId(id);
-        Patient patientOptional = patientRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Patient not found "));
+        Patient patientOptional = patientRepository.findById(id).orElseThrow(() -> new BadRequestException("Patient not found"));
 
         return Optional.of(patientOptional);
     }
@@ -96,7 +97,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Optional<Patient> findByCpf(String cpf) {
-        Patient patient = patientRepository.findByCpf(cpf).orElseThrow(() -> new IllegalArgumentException("Patint with cpf: " + cpf + " not found"));
+        Patient patient = patientRepository.findByCpf(cpf).orElseThrow(() -> new BadRequestException("Patient not found"));
 
         return Optional.of(patient);
     }
@@ -143,8 +144,13 @@ public class PatientServiceImpl implements PatientService {
         patient.setTelephone(patientPutRequestBody.getTelephone());
 
         patientRepository.save(patient);
+    }
 
+    @Override
+    public List<Patient> findByZipcode(String zipcode) {
+        List<Patient> patientsByZipcode = patientRepository.findByZipcode(zipcode);
 
+        return patientsByZipcode.isEmpty() ? Collections.emptyList() : patientsByZipcode;
     }
 
     private void validateId (Long id) {

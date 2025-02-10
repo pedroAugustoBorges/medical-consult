@@ -35,6 +35,16 @@ public class PatientController {
         return ResponseEntity.ok(patientService.findById(id));
     }
 
+    @GetMapping(path = "/cpf/{cpf}")
+    public ResponseEntity<Optional<Patient>> findByCpf (@PathVariable String cpf){
+        return ResponseEntity.ok(patientService.findByCpf(cpf));
+    }
+
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Patient>> findByZipcode (@RequestParam String zipcode){
+        return ResponseEntity.ok(patientService.findByZipcode(zipcode));
+    }
+
     @PostMapping
     public ResponseEntity<Patient> save (@RequestBody PatientPostRequestBody patientPostRequestBody){
         return new ResponseEntity<>(patientService.save(patientPostRequestBody), HttpStatus.CREATED);
@@ -52,10 +62,6 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(path = "/cpf/{cpf}")
-    public ResponseEntity<Optional<Patient>> findByCpf (@PathVariable String cpf){
-        return ResponseEntity.ok(patientService.findByCpf(cpf));
-    }
 
     @PutMapping
     public ResponseEntity<Patient> updateByIdPatient (@RequestBody PatientPutRequestBody patientPutRequestBody){
