@@ -3,7 +3,8 @@ package com.pedro.medical_consult.controller;
 
 import com.pedro.medical_consult.domain.Patient;
 import com.pedro.medical_consult.service.imp.PatientServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("patients")
+@Log4j2
 public class PatientController {
 
     private PatientServiceImpl patientService;
@@ -46,7 +48,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Patient> save (@RequestBody PatientPostRequestBody patientPostRequestBody){
+    public ResponseEntity<Patient> save (@RequestBody @Valid PatientPostRequestBody patientPostRequestBody){
         return new ResponseEntity<>(patientService.save(patientPostRequestBody), HttpStatus.CREATED);
     }
 
@@ -64,7 +66,7 @@ public class PatientController {
 
 
     @PutMapping
-    public ResponseEntity<Patient> updateByIdPatient (@RequestBody PatientPutRequestBody patientPutRequestBody){
+    public ResponseEntity<Patient> updateByIdPatient (@RequestBody @Valid PatientPutRequestBody patientPutRequestBody){
         patientService.replace(patientPutRequestBody);
         return  new ResponseEntity<>(HttpStatus.OK);
     }

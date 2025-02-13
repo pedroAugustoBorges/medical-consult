@@ -22,7 +22,7 @@ public class ConsultServiceImpl implements ConsultService {
 
 
     @Override
-    public Consult save(@Valid Consult entity) {
+    public Consult save(Consult entity) {
         if (entity == null){
             throw new IllegalArgumentException("Entity is null");
         }

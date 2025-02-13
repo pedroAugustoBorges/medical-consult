@@ -26,11 +26,11 @@ public class Consult {
     private LocalTime localTime;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "idPatient")
+    @JoinColumn(name = "patient_id", referencedColumnName = "id_Patient")
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", referencedColumnName = "idDoctor")
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id_Doctor")
     private Doctor doctor;
 
     public void setIdConsult(Long idConsult) {

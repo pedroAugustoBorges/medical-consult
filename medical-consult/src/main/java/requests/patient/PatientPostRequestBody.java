@@ -2,7 +2,6 @@ package requests.patient;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,26 +16,27 @@ import lombok.NoArgsConstructor;
 @Data
 public class PatientPostRequestBody {
 
-    @NotNull
+    @JsonProperty("numberStreet")
+    @NotNull(message = "The number street cannot be empty ")
     private Long numberStreet;
 
-    @NotBlank
+    @NotBlank(message = "The name cannot be empty ")
     private String name;
 
     @Email
-    @NotBlank
+    @NotBlank(message = "The email cannot be empty ")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "The cpf cannot be empty ")
     private String cpf;
 
-    @NotBlank
+    @NotBlank(message = "The telephone cannot be empty ")
     private String telephone;
 
-    @NotBlank
+    @NotBlank(message = "The zipcode cannot be empty ")
     private String zipcode;
 
-    @NotBlank
+    @NotBlank(message = "The street cannot be empty ")
     private String street;
 
 

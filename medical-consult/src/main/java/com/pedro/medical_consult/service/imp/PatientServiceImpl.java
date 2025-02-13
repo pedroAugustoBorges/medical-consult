@@ -8,9 +8,8 @@ import com.pedro.medical_consult.service.PatientService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import requests.patient.PatientPostRequestBody;
 import requests.patient.PatientPutRequestBody;
 
@@ -19,14 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
-
-
-    public PatientServiceImpl(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
+    private final PatientMapper patientMapper;
 
 
     @Transactional
@@ -45,7 +41,7 @@ public class PatientServiceImpl implements PatientService {
             throw new EntityNotFoundException("Entity is null");
         }
 
-        return patientRepository.save(PatientMapper.INSTANCE.toPatient(patientPostRequestBody));
+        return patientRepository.save(patientMapper.toPatient(patientPostRequestBody));
     }
 
     @Override
@@ -62,7 +58,7 @@ public class PatientServiceImpl implements PatientService {
         validateId(id);
 
         if (!patientRepository.existsById(id)){
-            throw new EntityNotFoundException("Entity not found");
+            throw new BadRequestException("Entity not found");
         }
         patientRepository.deleteById(id);
     }
@@ -73,7 +69,7 @@ public class PatientServiceImpl implements PatientService {
         Optional<Patient> patientOptional = findByCpf(cpf);
 
         if (!patientOptional.isPresent()){
-            throw new EntityNotFoundException("Entity not found");
+            throw new BadRequestException("Entity not found");
         }
 
         patientRepository.deleteByCpf(cpf);
@@ -106,10 +102,6 @@ public class PatientServiceImpl implements PatientService {
     public void replace(Patient patient) {
         Optional<Patient> patientFounded = findById(patient.getIdPatient());
 
-        if (!patientFounded.isPresent()){
-            throw new EntityNotFoundException("Entity not found");
-        }
-
         Patient patientWillBeUpdate = patientFounded.get();
 
         patientWillBeUpdate.setName(patient.getName());
@@ -126,22 +118,11 @@ public class PatientServiceImpl implements PatientService {
     }
     @Transactional
     public void replace(PatientPutRequestBody patientPutRequestBody) {
-        Optional<Patient> patientFounded = findById(patientPutRequestBody.getIdPatient());
+        Patient patientSaved = findById(patientPutRequestBody.getIdPatient()).get();
 
+        Patient patient = patientMapper.toPatient(patientPutRequestBody);
 
-        if (!patientFounded.isPresent()){
-            throw new EntityNotFoundException("Entity not found");
-        }
-
-        Patient patient = PatientMapper.INSTANCE.toPatient(patientPutRequestBody);
-
-        patient.setName(patientPutRequestBody.getName());
-        patient.setCpf(patientPutRequestBody.getCpf());
-        patient.setStreet(patientPutRequestBody.getStreet());
-        patient.setEmail(patientPutRequestBody.getEmail());
-        patient.setZipcode(patientPutRequestBody.getZipcode());
-        patient.setNumberStreet(patientPutRequestBody.getNumberStreet());
-        patient.setTelephone(patientPutRequestBody.getTelephone());
+        patient.setIdPatient(patientSaved.getIdPatient());
 
         patientRepository.save(patient);
     }

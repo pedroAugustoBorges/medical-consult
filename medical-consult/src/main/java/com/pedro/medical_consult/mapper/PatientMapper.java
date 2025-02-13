@@ -12,7 +12,7 @@ import requests.patient.PatientPutRequestBody;
 @Mapper(componentModel = "spring")
 public abstract class PatientMapper {
 
-    public static final PatientMapper INSTANCE = Mappers.getMapper(PatientMapper.class);
+    @Mapping(source = "numberStreet", target = "numberStreet")
     public abstract Patient toPatient (PatientPostRequestBody patientPostRequestBody);
 
     public abstract Patient toPatient (PatientPutRequestBody patientPutRequestBody);
