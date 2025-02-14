@@ -2,15 +2,14 @@ package requests.doctor;
 
 import com.pedro.medical_consult.domain.enumeration.Specialization;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
+@ToString
 public class DoctorPostRequestBody {
 
     @NotBlank
@@ -19,6 +18,6 @@ public class DoctorPostRequestBody {
     @NotBlank
     private String crm;
 
-    @NotBlank
+    @NotNull
     private Specialization specialization;
 }

@@ -3,20 +3,17 @@ package com.pedro.medical_consult.service;
 import java.util.List;
 import java.util.Optional;
 
-public interface CrudService<T, Object>{
+public interface CrudService<T, ID> {
 
-    T save (T entity);
+    T save(T entity);
 
-    Optional<T> findById (Object id);
+    T findById(ID id);
 
-    void deleteById(Long id);
+    void deleteById(ID id);
 
-    boolean existsById (Long id);
+    boolean existsById(ID id);
 
     List<T> findAll();
-
-
-
 
 
 }

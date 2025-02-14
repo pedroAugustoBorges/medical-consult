@@ -1,5 +1,8 @@
 package com.pedro.medical_consult.domain.enumeration;
 
+import lombok.Getter;
+
+@Getter
 public enum Specialization {
 
     CARDIOLOGY,

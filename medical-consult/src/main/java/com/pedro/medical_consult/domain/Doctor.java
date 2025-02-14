@@ -6,9 +6,11 @@ import lombok.*;
 
 import java.util.Objects;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "doctors")
 public class Doctor {
 
@@ -28,34 +30,6 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
 
-    public void setIdDoctor(Long idDoctor) {
-        this.idDoctor = idDoctor;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCrm(String crm) {
-        this.crm = crm;
-    }
-
-    public void setSpecialization(Specialization specialization) {
-        this.specialization = specialization;
-    }
-
-    public Long getIdDoctor() {
-        return idDoctor;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCrm() {
-        return crm;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,9 +43,35 @@ public class Doctor {
         return Objects.hash(idDoctor, name, crm, specialization);
     }
 
+    public Long getIdDoctor() {
+        return idDoctor;
+    }
+
+    public void setIdDoctor(Long idDoctor) {
+        this.idDoctor = idDoctor;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCrm() {
+        return crm;
+    }
+
+    public void setCrm(String crm) {
+        this.crm = crm;
+    }
+
     public Specialization getSpecialization() {
         return specialization;
+    }
 
-
+    public void setSpecialization(Specialization specialization) {
+        this.specialization = specialization;
     }
 }

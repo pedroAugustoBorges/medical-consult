@@ -32,11 +32,11 @@ public class ConsultServiceImpl implements ConsultService {
     }
 
     @Override
-    public Optional<Consult> findById(Long id) {
+    public Consult findById(Long id) {
 
         Consult consult = consultRepository.findById(id).orElseThrow(() -> new BadRequestException("Consult not found"));
 
-        return Optional.of(consult);
+        return Optional.of(consult).get();
     }
 
     @Override

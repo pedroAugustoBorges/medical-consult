@@ -40,16 +40,21 @@ public class PatientServiceImpl implements PatientService {
         if (patientPostRequestBody == null){
             throw new EntityNotFoundException("Entity is null");
         }
+        System.out.println(patientPostRequestBody);
 
-        return patientRepository.save(patientMapper.toPatient(patientPostRequestBody));
+        Patient patient = patientMapper.toPatient(patientPostRequestBody);
+
+        System.out.println(patient);
+
+        return patientRepository.save(patient);
     }
 
     @Override
-    public Optional<Patient> findById(Long id) {
+    public Patient findById(Long id) {
         validateId(id);
         Patient patientOptional = patientRepository.findById(id).orElseThrow(() -> new BadRequestException("Patient not found"));
 
-        return Optional.of(patientOptional);
+        return Optional.of(patientOptional).get();
     }
 
     @Transactional
@@ -100,25 +105,26 @@ public class PatientServiceImpl implements PatientService {
 
     @Transactional
     public void replace(Patient patient) {
-        Optional<Patient> patientFounded = findById(patient.getIdPatient());
 
-        Patient patientWillBeUpdate = patientFounded.get();
+        Patient patientFounded = findById(patient.getIdPatient());
 
-        patientWillBeUpdate.setName(patient.getName());
-        patientWillBeUpdate.setCpf(patient.getCpf());
-        patientWillBeUpdate.setStreet(patient.getStreet());
-        patientWillBeUpdate.setEmail(patient.getEmail());
-        patientWillBeUpdate.setZipcode(patient.getZipcode());
-        patientWillBeUpdate.setNumberStreet(patient.getNumberStreet());
-        patientWillBeUpdate.setTelephone(patient.getTelephone());
 
-        patientRepository.save(patientWillBeUpdate);
+
+        patientFounded.setName(patient.getName());
+        patientFounded.setCpf(patient.getCpf());
+        patientFounded.setStreet(patient.getStreet());
+        patientFounded.setEmail(patient.getEmail());
+        patientFounded.setZipcode(patient.getZipcode());
+        patientFounded.setNumberStreet(patient.getNumberStreet());
+        patientFounded.setTelephone(patient.getTelephone());
+
+        patientRepository.save(patientFounded);
 
 
     }
     @Transactional
     public void replace(PatientPutRequestBody patientPutRequestBody) {
-        Patient patientSaved = findById(patientPutRequestBody.getIdPatient()).get();
+        Patient patientSaved = findById(patientPutRequestBody.getIdPatient());
 
         Patient patient = patientMapper.toPatient(patientPutRequestBody);
 

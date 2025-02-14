@@ -1,6 +1,8 @@
 package requests.doctor;
 
 import com.pedro.medical_consult.domain.enumeration.Specialization;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ public class DoctorPutRequestBody {
     @NotBlank
     private String crm;
 
-    @NotBlank
+    @NotNull
+
     private Specialization specialization;
 }

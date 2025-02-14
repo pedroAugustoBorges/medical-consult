@@ -8,6 +8,7 @@ import com.pedro.medical_consult.service.DoctorService;
 import com.pedro.medical_consult.util.CrmFormatter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import requests.doctor.DoctorPostRequestBody;
 import requests.doctor.DoctorPutRequestBody;
@@ -15,6 +16,7 @@ import requests.doctor.DoctorPutRequestBody;
 import java.util.*;
 
 @Service
+
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
@@ -36,15 +38,21 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Transactional
-    public Doctor save (DoctorPostRequestBody doctorPostRequestBody) {
+    public Doctor save ( @Valid DoctorPostRequestBody doctorPostRequestBody) {
         if (doctorPostRequestBody == null){
             throw new EntityNotFoundException("Entity cannot be null");
         }
 
+        System.out.println(doctorPostRequestBody);
+
         Doctor doctor = doctorMapper.toDoctor(doctorPostRequestBody);
 
 
+        System.out.println(doctor);
+
         doctor.setCrm(CrmFormatter.formatter(doctor.getCrm()));
+
+
 
         doctorRepository.save(doctor);
 
@@ -52,12 +60,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Optional<Doctor> findById(Long id) {
+    public Doctor findById(Long id) {
 
-        Doctor doctorFounded = doctorRepository.findById(id).orElseThrow(() -> new BadRequestException("Doctor not found"));
-        return Optional.of(doctorFounded);
+        return doctorRepository.findById(id).orElseThrow(() -> new BadRequestException("Doctor not found")) ;
     }
-
 
     @Override
     public void deleteById(Long id) {
@@ -102,13 +108,11 @@ public class DoctorServiceImpl implements DoctorService {
             throw new EntityNotFoundException("Entity cannot be null");
         }
 
-        Optional<Doctor> doctorOptional = findById(doctor.getIdDoctor());
-
-        Doctor doctorFounded = doctorOptional.get();
+        Doctor doctorFounded = findById(doctor.getIdDoctor());
 
         doctorFounded.setName(doctor.getName());
         doctorFounded.setSpecialization(doctor.getSpecialization());
-        doctorFounded.setCrm(doctor.getCrm());
+        doctorFounded.setCrm(CrmFormatter.formatter(doctor.getCrm()));
 
         doctorRepository.save(doctorFounded);
 
@@ -121,12 +125,16 @@ public class DoctorServiceImpl implements DoctorService {
             throw new EntityNotFoundException("Entity cannot be null");
         }
 
-        Doctor doctorSaved = findById(doctorPutRequestBody.getIdDoctor()).get();
+        Doctor doctorSaved = findById(doctorPutRequestBody.getIdDoctor());
+
 
         Doctor doctor = doctorMapper.toDoctor(doctorPutRequestBody);
 
+
         doctor.setIdDoctor(doctorSaved.getIdDoctor());
-        doctor.setCrm(CrmFormatter.formatter(doctorSaved.getCrm()));
+
+        doctor.setCrm(CrmFormatter.formatter(doctor.getCrm()));
+
 
         doctorRepository.save(doctor);
     }

@@ -9,6 +9,8 @@ public class ConsultController {
 
     private ConsultServiceImpl consultService;
 
+
+
     public ConsultController(ConsultServiceImpl consultService) {
         this.consultService = consultService;
     }

@@ -20,7 +20,7 @@ import java.util.Optional;
 @Log4j2
 public class PatientController {
 
-    private PatientServiceImpl patientService;
+    private final PatientServiceImpl patientService;
 
     public PatientController(PatientServiceImpl patientService) {
         this.patientService = patientService;
@@ -33,7 +33,7 @@ public class PatientController {
     }
 
     @GetMapping(path = "/id/{id}")
-    public ResponseEntity<Optional<Patient>> findById (@PathVariable Long id){
+    public ResponseEntity <Patient> findById (@PathVariable Long id){
         return ResponseEntity.ok(patientService.findById(id));
     }
 
@@ -66,11 +66,10 @@ public class PatientController {
 
 
     @PutMapping
-    public ResponseEntity<Patient> updateByIdPatient (@RequestBody @Valid PatientPutRequestBody patientPutRequestBody){
+    public ResponseEntity<Patient> replaceByIdPatient (@RequestBody @Valid PatientPutRequestBody patientPutRequestBody){
         patientService.replace(patientPutRequestBody);
-        return  new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
 
 
