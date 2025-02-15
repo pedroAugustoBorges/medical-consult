@@ -6,6 +6,8 @@ import com.pedro.medical_consult.repository.ConsultRepository;
 import com.pedro.medical_consult.service.ConsultService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,8 +60,8 @@ public class ConsultServiceImpl implements ConsultService {
     }
 
     @Override
-    public List<Consult> findAll() {
-        return consultRepository.findAll();
+    public Page<Consult> findAll(Pageable pageable) {
+        return consultRepository.findAll(pageable);
     }
 
     @Override

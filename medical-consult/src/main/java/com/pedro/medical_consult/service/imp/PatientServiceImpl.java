@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import requests.patient.PatientPostRequestBody;
 import requests.patient.PatientPutRequestBody;
@@ -89,10 +91,10 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public List<Patient> findAll() {
-        List<Patient> patients = patientRepository.findAll();
+    public Page<Patient> findAll(Pageable pageable) {
 
-        return patients.isEmpty() ? Collections.emptyList() : patients;
+
+        return patientRepository.findAll(pageable);
     }
 
 

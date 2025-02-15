@@ -5,6 +5,8 @@ import com.pedro.medical_consult.domain.Doctor;
 import com.pedro.medical_consult.service.DoctorService;
 import com.pedro.medical_consult.service.imp.DoctorServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +28,8 @@ public class DoctorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Doctor>> listAll () {
-        return ResponseEntity.ok(doctorService.findAll());
+    public ResponseEntity<Page<Doctor>> listAll (Pageable pageable) {
+        return ResponseEntity.ok(doctorService.findAll(pageable));
     }
 
     @GetMapping(path = "/id/{id}")
@@ -36,7 +38,7 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<Doctor> save (@RequestBody  @Valid DoctorPostRequestBody doctor){
+    public ResponseEntity<Doctor> save (@RequestBody @Valid DoctorPostRequestBody doctor){
         return new ResponseEntity<>(doctorService.save(doctor), HttpStatus.CREATED);
     }
 
@@ -46,8 +48,8 @@ public class DoctorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(path = "crm/{crm}")
-    public ResponseEntity<Doctor> findByCrm (@PathVariable String crm){
+    @GetMapping(path = "crm")
+    public ResponseEntity<Doctor> findByCrm (@RequestParam String crm){
         return new ResponseEntity<>(doctorService.findDoctorByCrm(crm), HttpStatus.OK);
     }
 

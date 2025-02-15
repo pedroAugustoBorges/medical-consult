@@ -1,7 +1,8 @@
 package com.pedro.medical_consult.service;
 
-import java.util.List;
-import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CrudService<T, ID> {
 
@@ -13,7 +14,7 @@ public interface CrudService<T, ID> {
 
     boolean existsById(ID id);
 
-    List<T> findAll();
+    Page<T> findAll(Pageable pageable);
 
 
 }

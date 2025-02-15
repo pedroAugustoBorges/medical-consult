@@ -9,6 +9,8 @@ import com.pedro.medical_consult.util.CrmFormatter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import requests.doctor.DoctorPostRequestBody;
 import requests.doctor.DoctorPutRequestBody;
@@ -78,6 +80,8 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public boolean existsById(Long id) {
 
+        validateId(id);
+
         if (id <= 0) {
             throw new IllegalArgumentException("Id less than 0");
         }
@@ -85,10 +89,9 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> findAll() {
-        List<Doctor> listDoctors = doctorRepository.findAll();
+    public Page<Doctor> findAll(Pageable pageable) {
 
-        return listDoctors.isEmpty() ? Collections.emptyList() : listDoctors;
+        return doctorRepository.findAll(pageable);
     }
 
     private void validateId (Long id){
@@ -98,7 +101,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
     @Override
     public Doctor findDoctorByCrm(String crm) {
-        return doctorRepository.findDoctorByCrm(crm).orElseThrow(() -> new BadRequestException("Doctor not found")) ;
+        return doctorRepository.findDoctorByCrm(CrmFormatter.formatter(crm)).orElseThrow(() -> new BadRequestException("Doctor not found")) ;
     }
 
     @Transactional
