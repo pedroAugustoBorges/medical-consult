@@ -1,14 +1,18 @@
 package com.pedro.medical_consult.service;
 
 import com.pedro.medical_consult.domain.Consult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import requests.consult.ConsultPutRequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ConsultService extends CrudService<Consult, Long> {
 
-    List<Consult> findConsultByDoctorIdDoctor (Long idDoctor);
+    Page<Consult> findConsultByDoctorIdDoctor (Long idDoctor, Pageable pageable);
 
-    List<Consult> findConsultByPatientIdPatient (Long idPatient);
+    Page<Consult> findConsultByPatientIdPatient (Long idPatien, Pageable pageablet);
 
     void deleteConsultByDoctorIdDoctor (Long idDoctor);
 
@@ -17,6 +21,8 @@ public interface ConsultService extends CrudService<Consult, Long> {
     boolean existsConsultByDoctorIdDoctor (Long idDoctor);
 
     boolean existsConsultByPatientIdPatient (Long idPatient);
+
+   Consult updateConsultPatch (Long id, ConsultPutRequestBody consultPutRequestBody);
 
 
 

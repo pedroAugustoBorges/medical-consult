@@ -6,6 +6,7 @@ import com.pedro.medical_consult.mapper.DoctorMapper;
 import com.pedro.medical_consult.repository.DoctorRepository;
 import com.pedro.medical_consult.service.DoctorService;
 import com.pedro.medical_consult.util.CrmFormatter;
+import com.pedro.medical_consult.validations.ValidationId;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -62,14 +63,13 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public Doctor findById(Long id) {
+    public Doctor findById( @ValidationId Long id) {
 
         return doctorRepository.findById(id).orElseThrow(() -> new BadRequestException("Doctor not found")) ;
     }
 
     @Override
-    public void deleteById(Long id) {
-       validateId(id);
+    public void deleteById( @ValidationId Long id) {
         if (!doctorRepository.existsById(id)){
             throw new EntityNotFoundException("Doctor not found with id " + id);
         }
@@ -78,10 +78,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public boolean existsById(Long id) {
-
-        validateId(id);
-
+    public boolean existsById( @ValidationId Long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("Id less than 0");
         }
@@ -94,11 +91,6 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.findAll(pageable);
     }
 
-    private void validateId (Long id){
-        if (id == null || id <= 0){
-            throw new IllegalArgumentException("Id invalid: " + id);
-        }
-    }
     @Override
     public Doctor findDoctorByCrm(String crm) {
         return doctorRepository.findDoctorByCrm(CrmFormatter.formatter(crm)).orElseThrow(() -> new BadRequestException("Doctor not found")) ;
